@@ -60,7 +60,7 @@ const ProductTemplateView: React.FC = () => {
       setPrevImage(selectedColor.img);
       setSelectedColor(color);
       setFade(true);
-    }, 200);
+    }, 250);
   };
 
   const unitPrice = variants.basePrice + selectedCap.upcharge;
@@ -108,19 +108,6 @@ const ProductTemplateView: React.FC = () => {
           "name": "Ahmed Khan"
         },
         "reviewBody": "Excellent power bank! The fast charging works perfectly with my Galaxy S23. Highly recommended for the current load-shedding situation in Karachi."
-      },
-      {
-        "@type": "Review",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Sarah Malik"
-        },
-        "reviewBody": "Quality is top-notch. Received the Pacific Blue version and it looks very premium. Fast delivery as well."
       }
     ]
   };
@@ -133,28 +120,28 @@ const ProductTemplateView: React.FC = () => {
           
           {/* PRODUCT VISUALS */}
           <div className="space-y-8">
-            <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-slate-100 border border-slate-100 group shadow-inner">
-              {/* Previous Image (Stays behind for cross-fade) */}
+            <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-slate-50 border border-slate-100 group shadow-inner">
+              {/* Previous Image (Behind Layer) */}
               <img 
                 src={prevImage} 
-                alt="Previous color"
-                className="absolute inset-0 w-full h-full object-cover"
+                alt="Previous Variant"
+                className="absolute inset-0 w-full h-full object-cover grayscale-[20%]"
               />
               
-              {/* Dynamic Image with Smooth Transition */}
+              {/* Main Image (Front Layer with Fade) */}
               <img 
                 src={selectedColor.img} 
                 alt={selectedColor.name} 
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-in-out transform group-hover:scale-110 ${fade ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out transform group-hover:scale-105 ${fade ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
               />
               
-              {/* Marketing Badges */}
+              {/* Floating Badges */}
               <div className="absolute top-6 left-6 flex flex-col gap-2 pointer-events-none z-10">
                 <span className="bg-emerald-600 text-white px-4 py-2 rounded-xl text-[10px] font-black shadow-lg uppercase tracking-widest inline-flex items-center gap-2">
                   <ShieldCheck size={14} /> Official Warranty
                 </span>
                 <span className="bg-white/95 backdrop-blur text-slate-900 px-4 py-2 rounded-xl text-[10px] font-bold shadow-sm uppercase tracking-widest border border-slate-100">
-                  {selectedColor.name} Edition
+                  {selectedColor.name}
                 </span>
               </div>
               
@@ -163,7 +150,7 @@ const ProductTemplateView: React.FC = () => {
               </button>
             </div>
             
-            {/* THUMBNAIL GALLERY */}
+            {/* THUMBNAIL QUICK SELECT */}
             <div className="flex justify-center lg:justify-start gap-4 p-2 bg-slate-50 rounded-3xl border border-slate-100 w-fit mx-auto lg:mx-0">
                {variants.colors.map((c, i) => (
                  <button 
@@ -189,7 +176,7 @@ const ProductTemplateView: React.FC = () => {
                 <div className="flex text-amber-400 gap-0.5">
                   {[1,2,3,4,5].map(s => <Star key={s} size={14} className="fill-amber-400" />)}
                 </div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Verified Purchase Reviewers</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Verified Seller • 4.9 Rating</span>
               </div>
               
               <h1 className="text-4xl lg:text-5xl font-black text-slate-900 leading-tight mb-4 tracking-tight">
@@ -197,37 +184,41 @@ const ProductTemplateView: React.FC = () => {
               </h1>
               
               <p className="text-slate-500 text-base leading-relaxed mb-8 max-w-lg">
-                Engineered for the reliable power every Pakistani home needs. High-speed PD 3.0 charging, dual ports, and a premium heat-resistant finish.
+                The ultimate backup for load-shedding. Our Gen-3 engine supports PD 3.0 for lightning-fast charging of your iPhone, Samsung, and Huawei devices.
               </p>
               
-              <div className="flex flex-wrap items-baseline gap-3 bg-slate-50 p-6 rounded-3xl border border-slate-100 w-fit shadow-inner">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Pricing:</span>
+              <div className="flex flex-wrap items-baseline gap-3 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 w-fit shadow-inner">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Price:</span>
                 <span className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter">
                   Rs. {totalPrice.toLocaleString()}
                 </span>
                 <div className="flex flex-col ml-2">
-                  <span className="text-sm text-slate-400 line-through font-medium">Rs. {(totalPrice * 1.5).toLocaleString()}</span>
-                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full w-fit animate-pulse">FLASH SALE -40%</span>
+                  <span className="text-sm text-slate-400 line-through font-medium opacity-60">Rs. {(totalPrice * 1.4).toLocaleString()}</span>
+                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full w-fit">FLASH SALE</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-10 py-10 border-y border-slate-100">
-              {/* COLOR SWATCHES */}
+              {/* COLOR SWATCHES - REFINED */}
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-5">Select Your Finish: <span className="text-slate-900 ml-1">{selectedColor.name}</span></label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-5">
+                  Finish: <span className="text-slate-900 ml-1">{selectedColor.name}</span>
+                </label>
                 <div className="flex gap-5">
                   {variants.colors.map((color, i) => (
                     <button
                       key={i}
                       onClick={() => handleColorChange(color)}
-                      className={`w-14 h-14 rounded-full border-2 p-1.5 transition-all flex items-center justify-center relative group ${selectedColor.name === color.name ? 'border-emerald-600 shadow-xl scale-110 ring-8 ring-emerald-50' : 'border-slate-200 hover:border-slate-300'}`}
-                      aria-label={`Select color ${color.name}`}
+                      className={`w-16 h-16 rounded-full border-2 p-1.5 transition-all flex items-center justify-center relative group ${selectedColor.name === color.name ? 'border-emerald-600 shadow-xl scale-110 ring-8 ring-emerald-50' : 'border-slate-200 hover:border-slate-400 hover:scale-105'}`}
                     >
-                      <div className="w-full h-full rounded-full shadow-inner border border-black/5" style={{ backgroundColor: color.hex }}></div>
+                      <div 
+                        className="w-full h-full rounded-full shadow-inner border border-black/5 transition-transform group-hover:scale-95" 
+                        style={{ backgroundColor: color.hex }}
+                      ></div>
                       {selectedColor.name === color.name && (
-                        <div className="absolute -bottom-1 -right-1 bg-emerald-600 text-white rounded-full p-1 shadow-lg animate-in zoom-in duration-300">
-                          <CheckCircle size={12} />
+                        <div className="absolute -bottom-1 -right-1 bg-emerald-600 text-white rounded-full p-1.5 shadow-lg animate-in zoom-in duration-300">
+                          <CheckCircle size={14} />
                         </div>
                       )}
                     </button>
@@ -235,22 +226,30 @@ const ProductTemplateView: React.FC = () => {
                 </div>
               </div>
 
-              {/* CAPACITY CARDS */}
+              {/* CAPACITY BUTTONS - REFINED */}
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-5">Power Capacity</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-5">
+                  Select Capacity
+                </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {variants.capacities.map((cap, i) => (
                     <button
                       key={i}
                       onClick={() => setSelectedCap(cap)}
-                      className={`text-left p-5 rounded-[1.5rem] border-2 transition-all flex flex-col justify-between h-28 group relative ${selectedCap.name === cap.name ? 'border-emerald-600 bg-emerald-50/30 shadow-lg' : 'border-slate-100 hover:border-slate-300 bg-white'}`}
+                      className={`text-left p-5 rounded-[1.5rem] border-2 transition-all flex flex-col justify-between h-28 group relative overflow-hidden ${selectedCap.name === cap.name ? 'border-emerald-600 bg-emerald-50/40 shadow-lg scale-[1.02]' : 'border-slate-100 hover:border-slate-300 bg-white'}`}
                     >
-                      <div className="flex justify-between items-start w-full">
+                      <div className="flex justify-between items-start w-full relative z-10">
                         <span className={`font-black text-sm tracking-tight ${selectedCap.name === cap.name ? 'text-emerald-900' : 'text-slate-900'}`}>{cap.name}</span>
-                        {cap.upcharge > 0 && <span className="text-[10px] font-black text-emerald-600">+Rs.{cap.upcharge.toLocaleString()}</span>}
+                        {cap.upcharge > 0 && (
+                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${selectedCap.name === cap.name ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                            +Rs.{cap.upcharge.toLocaleString()}
+                          </span>
+                        )}
                       </div>
-                      <span className="text-[10px] text-slate-400 font-bold leading-tight uppercase tracking-tight">{cap.desc}</span>
-                      {selectedCap.name === cap.name && <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>}
+                      <span className="text-[10px] text-slate-500 font-bold leading-tight uppercase tracking-tight relative z-10">{cap.desc}</span>
+                      
+                      {/* Interactive Background Accent */}
+                      <div className={`absolute bottom-0 right-0 w-12 h-12 bg-emerald-600/5 rounded-tl-[2rem] transition-transform duration-500 ${selectedCap.name === cap.name ? 'scale-[3]' : 'scale-0'}`}></div>
                     </button>
                   ))}
                 </div>
@@ -258,7 +257,7 @@ const ProductTemplateView: React.FC = () => {
 
               {/* QUANTITY PICKER */}
               <div className="flex items-center justify-between bg-slate-50 p-4 rounded-[1.5rem] border border-slate-100 shadow-inner">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Order Quantity</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Quantity</label>
                 <div className="flex items-center gap-6 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -277,11 +276,12 @@ const ProductTemplateView: React.FC = () => {
               </div>
             </div>
 
-            {/* PURCHASE ACTIONS */}
+            {/* ACTION FOOTER */}
             <div className="mt-10 space-y-5">
                <div className="flex flex-col sm:flex-row gap-4">
                  <button className="flex-[2] py-6 bg-emerald-600 text-white rounded-[1.5rem] font-black text-lg flex items-center justify-center gap-4 hover:bg-emerald-700 transition-all shadow-2xl shadow-emerald-600/40 group active:scale-[0.98]">
-                    <ShoppingCart size={24} className="group-hover:rotate-12 transition-transform" /> Order Now - Rs. {totalPrice.toLocaleString()}
+                    <ShoppingCart size={24} className="group-hover:-translate-y-1 transition-transform" /> 
+                    Confirm Order • Rs. {totalPrice.toLocaleString()}
                  </button>
                  <button className="flex-1 py-6 bg-slate-900 text-white rounded-[1.5rem] font-bold flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl active:scale-[0.98]">
                     <PhoneCall size={20} /> WhatsApp
@@ -290,10 +290,10 @@ const ProductTemplateView: React.FC = () => {
                
                <div className="flex flex-wrap gap-8 justify-center py-4 opacity-70">
                   <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <ShieldCheck size={16} className="text-emerald-600" /> Cash On Delivery Available
+                    <ShieldCheck size={16} className="text-emerald-600" /> 7-Day Replacement
                   </div>
                   <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <MapPin size={16} className="text-emerald-600" /> Nation-wide (2-4 Days)
+                    <MapPin size={16} className="text-emerald-600" /> All Over Pakistan
                   </div>
                </div>
             </div>
@@ -301,7 +301,7 @@ const ProductTemplateView: React.FC = () => {
         </div>
       </section>
 
-      {/* SEO & METADATA PREVIEW */}
+      {/* SEARCH DATA PREVIEW (DEBUG/SEO) */}
       <section className="bg-slate-900 rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
         <div className="p-10 border-b border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="flex items-center gap-4">
@@ -309,13 +309,13 @@ const ProductTemplateView: React.FC = () => {
               <Braces size={24} />
             </div>
             <div>
-              <h3 className="text-2xl font-black text-white tracking-tight">Advanced Search Engine Optimization</h3>
-              <p className="text-slate-400 text-sm">Full JSON-LD Schema including Reviews & Ratings for Rich Snippets</p>
+              <h3 className="text-2xl font-black text-white tracking-tight">Structured Data Sync</h3>
+              <p className="text-slate-400 text-sm">Dynamic JSON-LD Schema reflecting your current selection</p>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-white/5 px-6 py-3 rounded-full border border-white/10 backdrop-blur-sm">
              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-             <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Rich Snippet Ready</span>
+             <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">State Synchronized</span>
           </div>
         </div>
 
@@ -323,33 +323,23 @@ const ProductTemplateView: React.FC = () => {
            <div className="lg:col-span-1 space-y-6">
               <div className="p-6 bg-white/5 rounded-3xl border border-white/10">
                 <p className="text-[10px] font-black text-emerald-400 uppercase mb-3 tracking-widest flex items-center gap-2">
-                  <Info size={12} /> Search Signal
+                  <Info size={12} /> Pricing Signal
                 </p>
                 <p className="text-2xl font-black text-white">Rs. {totalPrice.toLocaleString()}</p>
-                <p className="text-[10px] text-slate-500 mt-1 uppercase font-bold tracking-tighter">Currency: Pakistani Rupee (PKR)</p>
+                <p className="text-[10px] text-slate-500 mt-1 uppercase font-bold tracking-tighter">Currency: PKR (Pakistan)</p>
               </div>
               <div className="p-6 bg-emerald-950/30 rounded-3xl border border-emerald-900/50">
-                <h5 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3">Ranking Strategy</h5>
+                <h5 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3">SEO Context</h5>
                 <p className="text-xs text-emerald-100/60 leading-relaxed font-medium">
-                  We've included <strong className="text-emerald-300">aggregateRating</strong> and <strong className="text-emerald-300">review</strong> clusters. Google often displays the 5-star rating directly in search results if this schema is present, resulting in 35% higher organic CTR.
+                  Selections update the <strong>SKU</strong> and <strong>Price</strong> in real-time. This helps Google index every variation of the power bank for precise search result snippets.
                 </p>
-              </div>
-              <div className="p-6 bg-white/5 rounded-3xl border border-white/10">
-                <h5 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3">Trust Signal Integration</h5>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="flex text-amber-400">
-                    <Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" />
-                  </div>
-                  <span className="text-white text-xs font-bold">4.9/5.0</span>
-                </div>
-                <p className="text-[10px] text-slate-500 italic">Based on 1,280 organic reviews from verified PK customers.</p>
               </div>
            </div>
            
            <div className="lg:col-span-2">
               <div className="bg-[#0f172a] rounded-[2rem] p-8 lg:p-12 font-mono text-[11px] overflow-x-auto text-emerald-300 shadow-inner h-full border border-white/5">
                 <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-6">
-                  <span className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">JSON-LD Script Validation</span>
+                  <span className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">LD+JSON Validation Preview</span>
                 </div>
                 <pre className="whitespace-pre-wrap leading-relaxed">{JSON.stringify(schemaMarkup, null, 2)}</pre>
               </div>
