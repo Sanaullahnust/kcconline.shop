@@ -13,15 +13,15 @@ import {
   X,
   ChevronRight
 } from 'lucide-react';
-import { AppSection } from './types';
-import SitemapView from './views/SitemapView';
-import HomepageView from './views/HomepageView';
-import ProductTemplateView from './views/ProductTemplateView';
-import BlogView from './views/BlogView';
-import SEOPlanView from './views/SEOPlanView';
-import DesignSystemView from './views/DesignSystemView';
-import PluginsView from './views/PluginsView';
-import ChecklistView from './views/ChecklistView';
+import { AppSection } from './types.ts';
+import SitemapView from './views/SitemapView.tsx';
+import HomepageView from './views/HomepageView.tsx';
+import ProductTemplateView from './views/ProductTemplateView.tsx';
+import BlogView from './views/BlogView.tsx';
+import SEOPlanView from './views/SEOPlanView.tsx';
+import DesignSystemView from './views/DesignSystemView.tsx';
+import PluginsView from './views/PluginsView.tsx';
+import ChecklistView from './views/ChecklistView.tsx';
 
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<AppSection>(AppSection.HOMEPAGE);
