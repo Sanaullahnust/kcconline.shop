@@ -66,25 +66,33 @@ const App: React.FC = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        .logo-glow {
+          box-shadow: 0 0 20px -5px rgba(132, 204, 22, 0.4);
+        }
       `}</style>
 
-      {/* Header with Brand Logo Integration */}
-      <header className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-header py-3 shadow-md' : 'bg-transparent py-6'}`}>
+      {/* Header with Professional Logo Integration */}
+      <header className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-header py-3 shadow-lg' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
-          {/* Brand Identity - Recreating the provided logo look */}
-          <button onClick={() => setCurrentPage('home')} className="flex items-center gap-3 group">
-            <div className="relative flex items-center gap-2">
-              <div className="relative">
-                <ShoppingBag size={34} className="text-[#84cc16] group-hover:rotate-12 transition-transform duration-300" strokeWidth={2.5} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-black rounded-full mb-1 ml-1"></div>
-                </div>
+          {/* Brand Identity - Refined professionally based on attached asset */}
+          <button onClick={() => setCurrentPage('home')} className="flex items-center gap-4 group relative">
+            <div className="relative">
+              {/* Outer Circular Container to match attached image style */}
+              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center logo-glow border border-slate-100 transition-all duration-500 group-hover:scale-110 relative z-10 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#84cc16]/5 to-transparent"></div>
+                <ShoppingBag size={28} className="text-[#84cc16] group-hover:rotate-12 transition-transform duration-300 relative z-10" strokeWidth={2.5} />
               </div>
-              <div className="flex flex-col items-start leading-tight">
-                <span className="font-black text-xl tracking-tighter text-black uppercase">KCC</span>
-                <span className="font-black text-lg text-[#84cc16] -mt-1">Online<span className="text-black">.Shop</span></span>
-                <span className="text-[7px] font-bold text-slate-400 uppercase tracking-[0.3em]">FAST SOLUTION</span>
+              {/* Hidden decorative ring matching the image's blue/purple glow */}
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-indigo-500/20 via-[#84cc16]/20 to-cyan-400/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            </div>
+
+            <div className="flex flex-col items-start leading-tight">
+              <span className="font-black text-2xl tracking-tighter text-black uppercase">KCC</span>
+              <div className="flex items-center gap-1.5 -mt-1.5">
+                 <span className="font-black text-xl text-[#84cc16]">Online<span className="text-black">.Shop</span></span>
+                 <div className="w-1.5 h-1.5 rounded-full bg-[#84cc16] animate-pulse"></div>
               </div>
+              <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.4em]">FAST SOLUTION</span>
             </div>
           </button>
 
@@ -111,9 +119,10 @@ const App: React.FC = () => {
             
             <div className="flex items-center gap-1">
               <button className="p-2 text-slate-500 hover:text-[#84cc16] transition-colors"><Heart size={18} /></button>
-              <button className="relative p-3 bg-black text-white rounded-2xl hover:bg-[#84cc16] transition-all shadow-lg active:scale-95 group ml-2">
-                <ShoppingCart size={18} />
-                <span className="absolute -top-1 -right-1 bg-[#84cc16] text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">2</span>
+              <button className="relative p-3 bg-black text-white rounded-2xl hover:bg-[#84cc16] transition-all shadow-lg active:scale-95 group ml-2 overflow-hidden">
+                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                <ShoppingCart size={18} className="relative z-10" />
+                <span className="absolute -top-1 -right-1 bg-[#84cc16] text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">2</span>
               </button>
               <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2 text-black ml-1"><Menu size={24} /></button>
             </div>
@@ -139,8 +148,8 @@ const App: React.FC = () => {
               ))}
             </div>
             <div className="mt-32 pt-10 border-t border-slate-100">
-               <a href={`https://wa.me/${businessNumber}`} target="_blank" className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600"><PhoneCall size={20} /></div>
+               <a href={`https://wa.me/${businessNumber}`} target="_blank" className="flex items-center gap-4 group">
+                  <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all"><PhoneCall size={20} /></div>
                   <div>
                     <p className="text-sm font-black text-slate-900">{displayPhone}</p>
                     <p className="text-xs font-medium text-slate-400">WhatsApp Support 24/7</p>
@@ -159,11 +168,13 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32">
             <div className="lg:col-span-5 space-y-10">
-              <div className="flex items-center gap-2">
-                <ShoppingBag size={40} className="text-[#84cc16]" strokeWidth={2.5} />
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl">
+                  <ShoppingBag size={34} className="text-[#84cc16]" strokeWidth={2.5} />
+                </div>
                 <div className="flex flex-col">
-                  <span className="font-black text-2xl tracking-tighter uppercase leading-none">KCC ONLINE</span>
-                  <span className="text-[10px] font-bold text-[#84cc16] uppercase tracking-[0.3em]">FAST SOLUTION</span>
+                  <span className="font-black text-3xl tracking-tighter uppercase leading-none">KCC ONLINE</span>
+                  <span className="text-[10px] font-bold text-[#84cc16] uppercase tracking-[0.4em]">FAST SOLUTION</span>
                 </div>
               </div>
               <p className="text-slate-400 text-lg leading-relaxed font-medium max-w-md">
@@ -171,7 +182,7 @@ const App: React.FC = () => {
               </p>
               <div className="flex gap-4">
                 {[Facebook, Instagram, Twitter].map((Icon, i) => (
-                  <a key={i} href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 hover:bg-[#84cc16] transition-all">
+                  <a key={i} href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 hover:bg-[#84cc16] hover:border-[#84cc16] hover:text-black transition-all">
                     <Icon size={20} />
                   </a>
                 ))}
@@ -182,25 +193,25 @@ const App: React.FC = () => {
               <div className="space-y-6">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#84cc16]">Explore</h4>
                 <ul className="space-y-4 text-sm font-bold text-slate-400">
-                  <li><button onClick={() => setCurrentPage('product')} className="hover:text-white">New Arrivals</button></li>
-                  <li><button onClick={() => setCurrentPage('product')} className="hover:text-white">Kitchen Deals</button></li>
-                  <li><button onClick={() => setCurrentPage('product')} className="hover:text-white">Tech Essentials</button></li>
+                  <li><button onClick={() => setCurrentPage('product')} className="hover:text-white transition-colors">New Arrivals</button></li>
+                  <li><button onClick={() => setCurrentPage('product')} className="hover:text-white transition-colors">Kitchen Deals</button></li>
+                  <li><button onClick={() => setCurrentPage('product')} className="hover:text-white transition-colors">Tech Essentials</button></li>
                 </ul>
               </div>
               <div className="space-y-6">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#84cc16]">Policies</h4>
                 <ul className="space-y-4 text-sm font-bold text-slate-400">
-                  <li><a href="#" className="hover:text-white">Refund & Returns</a></li>
-                  <li><a href="#" className="hover:text-white">Shipping Policy</a></li>
-                  <li><a href="#" className="hover:text-white">Terms of Service</a></li>
+                  <li><a href="#" className="hover:text-white transition-colors">Refund & Returns</a></li>
+                  <li><a href="#" className="hover:text-white transition-colors">Shipping Policy</a></li>
+                  <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
                 </ul>
               </div>
               <div className="space-y-6">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#84cc16]">Support</h4>
                 <ul className="space-y-4 text-sm font-bold text-slate-400">
-                  <li><a href={`https://wa.me/${businessNumber}`} target="_blank" className="hover:text-white">WhatsApp Order</a></li>
-                  <li><a href="#" className="hover:text-white">Track Your Order</a></li>
-                  <li><a href="#" className="hover:text-white">Contact Us</a></li>
+                  <li><a href={`https://wa.me/${businessNumber}`} target="_blank" className="hover:text-white transition-colors">WhatsApp Order</a></li>
+                  <li><a href="#" className="hover:text-white transition-colors">Track Your Order</a></li>
+                  <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
                 </ul>
               </div>
             </div>

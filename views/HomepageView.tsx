@@ -4,17 +4,16 @@ import {
   Star, 
   Truck, 
   ShieldCheck, 
-  RefreshCcw, 
   ArrowRight, 
   PhoneCall, 
-  ShoppingCart, 
-  ChevronRight, 
-  Heart,
-  Gem,
-  Zap,
-  CheckCircle2,
-  Package,
-  Award
+  Zap, 
+  CheckCircle2, 
+  Package, 
+  Award,
+  Globe,
+  Clock,
+  CheckCircle,
+  ShoppingBag
 } from 'lucide-react';
 
 const HomepageView: React.FC = () => {
@@ -34,7 +33,7 @@ const HomepageView: React.FC = () => {
 
   return (
     <div className="space-y-0 pb-0">
-      {/* 1. HERO SECTION - SEO H1 Integration */}
+      {/* 1. HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0c0d0e] text-white hero-gradient">
         <div className="absolute top-0 right-0 w-[60%] h-full bg-[#84cc16]/10 blur-[150px] -rotate-12 translate-x-[20%]"></div>
         
@@ -76,6 +75,7 @@ const HomepageView: React.FC = () => {
                 src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=1400" 
                 alt="Genuine Smartphone Accessories Pakistan" 
                 className="w-full aspect-[4/5] object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <div className="absolute bottom-10 left-10 p-6 glass-header rounded-[2.5rem] shadow-2xl text-black">
@@ -142,7 +142,7 @@ const HomepageView: React.FC = () => {
             { n: 'Home Comfort', i: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800' }
           ].map((c, i) => (
             <div key={i} className="group relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer">
-               <img src={c.i} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt={c.n} />
+               <img src={c.i} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt={c.n} loading="lazy" />
                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-12 flex flex-col justify-end">
                   <h3 className="text-white text-3xl font-black tracking-tighter mb-4">{c.n}</h3>
                   <button className="flex items-center gap-2 text-[#84cc16] font-black text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform">Browse <ArrowRight size={14} /></button>
@@ -170,36 +170,74 @@ const HomepageView: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. TRUST SIGNALS */}
-      <section className="bg-black text-white py-32 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-24 items-center">
+      {/* 6. BRAND VALUE PROPOSITION - REPLACED NEWSLETTER */}
+      <section className="bg-black text-white py-32 px-6 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-24 items-center relative z-10">
           <div className="space-y-12">
-            <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none">Why Choose <br/><span className="text-[#84cc16] italic">KCC Online?</span></h2>
-            <div className="space-y-8">
+            <div className="inline-flex items-center gap-4 px-6 py-2 bg-[#84cc16]/10 border border-[#84cc16]/20 rounded-full">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#84cc16] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#84cc16]"></span>
+              </span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#84cc16]">Official Brand Guarantee</span>
+            </div>
+            
+            <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
+              The Gold Standard of <br/>
+              <span className="text-[#84cc16] italic">Online Trust.</span>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                {t:'100% Genuine Inventory', d:'We directly import our stock. No middle-man, no fakes.'},
-                {t:'24/7 WhatsApp Support', d:'Direct line to experts at +923295147517.'},
-                {t:'Nationwide Express Shipping', d:'Fastest local delivery via TCS and Leopards.'}
-              ].map((p, i) => (
-                <div key={i} className="flex gap-6 group">
-                  <div className="w-8 h-8 rounded-full bg-[#84cc16] flex items-center justify-center shrink-0 mt-1"><CheckCircle2 size={16} className="text-black" /></div>
-                  <div><h4 className="font-black uppercase tracking-widest text-sm mb-1">{p.t}</h4><p className="text-slate-500 text-sm">{p.d}</p></div>
+                { icon: <ShieldCheck className="text-[#84cc16]" />, title: 'Genuine Inventory', desc: 'Direct imports from verified manufacturers.' },
+                { icon: <Clock className="text-[#84cc16]" />, title: '48hr Delivery', desc: 'Express shipping to all major PK cities.' },
+                { icon: <Globe className="text-[#84cc16]" />, title: 'Nationwide Reach', desc: 'Serving every corner of Pakistan safely.' },
+                { icon: <PhoneCall className="text-[#84cc16]" />, title: 'Live Support', desc: 'Real humans on WhatsApp, not bots.' }
+              ].map((item, i) => (
+                <div key={i} className="group p-6 bg-white/5 border border-white/10 rounded-[2rem] hover:bg-[#84cc16]/5 transition-all duration-500">
+                  <div className="w-12 h-12 rounded-2xl bg-[#84cc16]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </div>
+                  <h4 className="font-black text-lg mb-2">{item.title}</h4>
+                  <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="bg-[#1a1a1a] rounded-[4rem] p-16 border border-white/5 text-center relative overflow-hidden group">
-             <Gem size={100} className="text-[#84cc16] mx-auto mb-8 animate-pulse" />
-             <h3 className="text-3xl font-black mb-6">Join the Community</h3>
-             <p className="text-slate-400 mb-10">Get 10% OFF on your first order. Subscribe to our newsletter.</p>
-             <div className="flex gap-4 max-w-sm mx-auto">
-               <input type="text" placeholder="Your email..." className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#84cc16] outline-none transition-all" />
-               <button className="bg-[#84cc16] text-black font-black px-6 rounded-2xl">Join</button>
-             </div>
-             <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#84cc16]/5 rounded-full blur-3xl"></div>
+
+          <div className="relative">
+            <div className="aspect-square bg-gradient-to-br from-[#84cc16] to-emerald-900 rounded-[4rem] p-1 flex items-center justify-center shadow-2xl shadow-[#84cc16]/20 relative overflow-hidden group">
+               {/* Professional Logo Display based on attached image vibe */}
+               <div className="w-full h-full bg-black rounded-[3.8rem] flex flex-col items-center justify-center relative z-10 p-12 overflow-hidden">
+                 <div className="absolute inset-0 bg-radial-glow opacity-30"></div>
+                 
+                 <div className="relative mb-8 transform group-hover:scale-105 transition-transform duration-700">
+                   <div className="absolute inset-0 bg-[#84cc16] blur-3xl opacity-20"></div>
+                   <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center shadow-[0_0_60px_-15px_rgba(132,204,22,0.5)] border-4 border-emerald-500/10">
+                      <ShoppingBag size={80} className="text-[#84cc16]" strokeWidth={2} />
+                   </div>
+                 </div>
+
+                 <div className="text-center">
+                    <h3 className="text-4xl font-black tracking-tight leading-none">KCC <br/> <span className="text-[#84cc16]">ONLINE.SHOP</span></h3>
+                    <div className="h-px w-20 bg-[#84cc16]/30 mx-auto my-4"></div>
+                    <p className="text-[10px] font-black tracking-[0.6em] text-slate-500 uppercase">Fast Solution</p>
+                 </div>
+               </div>
+               
+               {/* Decorative background elements */}
+               <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#84cc16]/20 rounded-full blur-3xl"></div>
+               <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-emerald-900/40 rounded-full blur-3xl"></div>
+            </div>
           </div>
         </div>
       </section>
+
+      <style>{`
+        .bg-radial-glow {
+          background: radial-gradient(circle at center, rgba(132, 204, 22, 0.4) 0%, transparent 70%);
+        }
+      `}</style>
     </div>
   );
 };

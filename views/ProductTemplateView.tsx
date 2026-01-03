@@ -69,6 +69,51 @@ const ProductTemplateView: React.FC = () => {
   const oldPrice = Math.round((unitPrice * 1.45) / 100) * 100;
   const totalPrice = unitPrice * quantity;
 
+  // JSON-LD Schema Construction
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "KCC Ultra-Fast Pro Power Station",
+    "image": variants.colors.map(c => c.img),
+    "description": "Optimized for Pakistani power conditions. Fast charge anything from earbuds to tablets with consistent voltage protection.",
+    "sku": "KCC-PWR-PRO-001",
+    "mpn": "KCCPWRPRO",
+    "brand": {
+      "@type": "Brand",
+      "name": "KCC"
+    },
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Ahmad Khan"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "1284"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": typeof window !== 'undefined' ? window.location.href : '',
+      "priceCurrency": "PKR",
+      "price": unitPrice.toString(),
+      "priceValidUntil": "2025-12-31",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "KCC Online Shop Pakistan"
+      }
+    }
+  };
+
   useEffect(() => {
     setPriceFlash(true);
     const timer = setTimeout(() => setPriceFlash(false), 600);
@@ -94,10 +139,14 @@ const ProductTemplateView: React.FC = () => {
       totalPrice: totalPrice,
     };
     console.log("Order Added:", orderDetails);
+    
+    // Trigger Success State
     setIsSuccess(true);
     setShowToast(true);
+    
+    // Reset after animation
     setTimeout(() => setIsSuccess(false), 2000);
-    setTimeout(() => setShowToast(false), 3500);
+    setTimeout(() => setShowToast(false), 4500);
   };
 
   const handleWhatsAppOrder = () => {
@@ -110,11 +159,16 @@ const ProductTemplateView: React.FC = () => {
     window.open(`https://wa.me/${businessNumber}?text=${message}`, '_blank');
   };
 
-  const shareUrl = window.location.href;
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareText = "KCC Ultra-Fast Pro Power Station - The best power bank in Pakistan!";
 
   return (
     <div className="bg-[#fafafa] min-h-screen relative">
+      {/* JSON-LD Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify(productSchema)}
+      </script>
+
       <style>{`
         @keyframes price-pop {
           0% { transform: scale(1); color: #0f172a; }
@@ -124,17 +178,23 @@ const ProductTemplateView: React.FC = () => {
         .animate-price-pop {
           animation: price-pop 0.4s ease-out;
         }
+        @keyframes toast-in {
+          0% { transform: translate(-50%, -20px); opacity: 0; }
+          100% { transform: translate(-50%, 0); opacity: 1; }
+        }
       `}</style>
 
-      {/* Floating Success Toast */}
-      <div className={`fixed top-32 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 pointer-events-none ${showToast ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'}`}>
-        <div className="bg-emerald-600 text-white px-8 py-4 rounded-[2rem] shadow-2xl flex items-center gap-4 border border-emerald-400/20 backdrop-blur-md">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-            <Check size={18} strokeWidth={3} />
+      {/* Floating Success Toast - Enhanced with detailed variant info */}
+      <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 pointer-events-none ${showToast ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-12 opacity-0 scale-90'}`}>
+        <div className="bg-emerald-600 text-white px-6 py-4 rounded-[2rem] shadow-2xl flex items-center gap-4 border border-emerald-400/20 backdrop-blur-md min-w-[320px]">
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+            <Check size={20} strokeWidth={3} className="animate-in zoom-in duration-300" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-black uppercase tracking-widest opacity-80">Inventory Reserved</span>
-            <span className="font-bold text-sm">{selectedCap.name} Added!</span>
+            <span className="text-[10px] font-black uppercase tracking-widest opacity-80 leading-none mb-1">Added to Cart Successfully</span>
+            <span className="font-bold text-sm whitespace-nowrap">
+              {quantity}x {selectedCap.name} • <span className="opacity-80">{selectedColor.name}</span>
+            </span>
           </div>
         </div>
       </div>
@@ -147,7 +207,7 @@ const ProductTemplateView: React.FC = () => {
             <div className="p-8 lg:p-12 space-y-8 bg-slate-50/50">
               <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-white premium-shadow border border-slate-100 group">
                 <img src={prevImage} className="absolute inset-0 w-full h-full object-cover opacity-50 blur-sm" alt="Bg" />
-                <img src={selectedColor.img} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out transform group-hover:scale-110 ${fade ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`} alt={selectedColor.name} />
+                <img src={selectedColor.img} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out transform group-hover:scale-110 ${fade ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`} alt={selectedColor.name} loading="eager" />
                 <div className="absolute top-10 left-10">
                   <span className="bg-slate-900 text-white px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl flex items-center gap-2">
                     <ShieldCheck size={14} className="text-emerald-400" /> KCC Authentic
@@ -158,7 +218,7 @@ const ProductTemplateView: React.FC = () => {
               <div className="flex gap-4 justify-center">
                 {variants.colors.map((c, i) => (
                   <button key={i} onClick={() => handleColorChange(c)} className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all p-1 ${selectedColor.name === c.name ? 'border-emerald-600 ring-4 ring-emerald-50' : 'border-white opacity-40'}`}>
-                    <img src={c.img} className="w-full h-full object-cover rounded-xl" alt={c.name} />
+                    <img src={c.img} className="w-full h-full object-cover rounded-xl" alt={c.name} loading="lazy" />
                   </button>
                 ))}
               </div>
@@ -193,7 +253,7 @@ const ProductTemplateView: React.FC = () => {
                      </div>
                   </div>
 
-                  {/* Enhanced Social Sharing Section */}
+                  {/* Social Sharing Section */}
                   <div className="space-y-4">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
                        <Share2 size={12} /> Spread the word
@@ -216,7 +276,7 @@ const ProductTemplateView: React.FC = () => {
               {/* Options & CTA */}
               <div className="space-y-10">
                 <div className="space-y-6">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] block">Capacity</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] block">Capacity Configuration</label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {variants.capacities.map((cap, i) => (
                       <button key={i} onClick={() => setSelectedCap(cap)} className={`text-left p-5 rounded-2xl border-2 transition-all relative ${selectedCap.name === cap.name ? 'border-emerald-600 bg-emerald-50/30' : 'border-slate-100 hover:border-slate-200'}`}>
@@ -293,7 +353,7 @@ const ProductTemplateView: React.FC = () => {
             {recentlyViewed.map((item) => (
               <div key={item.id} className="group cursor-pointer">
                 <div className="aspect-[4/5] bg-white rounded-[2.5rem] overflow-hidden premium-shadow mb-6 border border-slate-50 relative">
-                  <img src={`https://picsum.photos/seed/recent-v2-${item.id}/800/1000`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt={item.name} />
+                  <img src={`https://picsum.photos/seed/recent-v2-${item.id}/800/1000`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt={item.name} loading="lazy" />
                   <button className="absolute top-5 right-5 w-10 h-10 bg-white/90 backdrop-blur rounded-2xl flex items-center justify-center text-slate-400 hover:text-rose-500 transition-all shadow-sm">
                     <Heart size={18} />
                   </button>
