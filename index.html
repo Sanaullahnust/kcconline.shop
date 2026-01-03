@@ -4,11 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kcconline.shop | E-Commerce Blueprint</title>
+    <title>KCC Online | Pakistan's #1 Premium Tech & Lifestyle Essentials Store</title>
+    <meta name="description" content="Shop authentic kitchen gadgets, mobile accessories, and lifestyle essentials at KCC Online. Fast delivery in Karachi, Lahore, Islamabad with 7-day replacement warranty.">
+    <meta name="keywords" content="KCC Online, Online Shopping Pakistan, Kitchen Gadgets, Power Banks Pakistan, Tech Store Karachi, Home Essentials, KCC Online Shop">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kcconline.shop/">
+    <meta property="og:title" content="KCC Online | Premium Tech & Lifestyle Essentials">
+    <meta property="og:description" content="Experience the gold standard of online shopping in Pakistan. Hand-picked tech and home tools with express shipping.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=1200">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KCC Online | Premium Tech & Lifestyle Essentials">
+    <meta property="twitter:description" content="Hand-picked tech and home tools with express shipping nationwide in Pakistan.">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "KCC Online Shop",
+      "url": "https://kcconline.shop",
+      "logo": "https://kcconline.shop/logo.png",
+      "description": "Premium tech accessories and kitchen gadgets in Pakistan.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+92-329-5147517",
+        "contactType": "customer service",
+        "areaServed": "PK",
+        "availableLanguage": ["English", "Urdu"]
+      },
+      "sameAs": [
+        "https://www.facebook.com/kcconline",
+        "https://www.instagram.com/kcconline"
+      ]
+    }
+    </script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        :root {
+            --emerald-primary: #84cc16; /* Brand Green from Logo */
+            --emerald-dark: #3f6212;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::selection {
+            background-color: #84cc16;
+            color: white;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #84cc16; }
+        
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(132, 204, 22, 0.15), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(63, 98, 18, 0.08), transparent 50%);
+        }
+
+        .premium-shadow {
+            box-shadow: 0 10px 50px -12px rgba(0, 0, 0, 0.05);
+        }
+
+        .premium-shadow-hover:hover {
+            box-shadow: 0 20px 70px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-brand-green { color: #84cc16; }
+        .bg-brand-green { background-color: #84cc16; }
     </style>
 <script type="importmap">
 {
@@ -22,9 +99,8 @@
 }
 </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-[#fafafa]">
     <div id="root"></div>
-    <!-- Explicitly loading the entry point to ensure it executes in all environments -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>
