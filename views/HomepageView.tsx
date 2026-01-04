@@ -5,239 +5,332 @@ import {
   Truck, 
   ShieldCheck, 
   ArrowRight, 
-  PhoneCall, 
   Zap, 
   CheckCircle2, 
   Package, 
   Award,
   Globe,
   Clock,
-  CheckCircle,
-  ShoppingBag
+  Wrench,
+  Utensils,
+  Lightbulb
 } from 'lucide-react';
 
-const HomepageView: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 14, minutes: 32, seconds: 45 });
+interface HomepageProps {
+  onNavigate: (page: any) => void;
+  initialScrollTo?: string;
+}
 
+// Reusable high-fidelity logo component matching the user's image with enhanced visibility
+const KCCLogo = ({ className = "w-12 h-12" }) => (
+  <svg viewBox="0 0 500 500" className={className} xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="logo-bg-grad-hero" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 1 }} />
+        <stop offset="85%" style={{ stopColor: '#f8fafc', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#f1f5f9', stopOpacity: 1 }} />
+      </radialGradient>
+      <linearGradient id="ring-gradient-hero-enhanced" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{ stopColor: '#6366f1', stopOpacity: 0.9 }} />
+        <stop offset="50%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#84cc16', stopOpacity: 0.9 }} />
+      </linearGradient>
+      <filter id="icon-shadow-hero" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+        <feOffset dx="0" dy="2" result="offsetblur" />
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.3" />
+        </feComponentTransfer>
+        <feMerge>
+          <feMergeNode />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    
+    <circle cx="250" cy="250" r="240" fill="none" stroke="url(#ring-gradient-hero-enhanced)" strokeWidth="14" />
+    <circle cx="250" cy="250" r="225" fill="url(#logo-bg-grad-hero)" />
+    
+    <g transform="translate(100, 100) scale(0.6)" filter="url(#icon-shadow-hero)">
+      <g transform="translate(40, 20)">
+        <path d="M120,150 Q200,30 280,150" fill="none" stroke="#1e293b" strokeWidth="15" strokeLinecap="round" />
+        <path d="M80,160 L320,160 L380,300 L20,300 Z" fill="#84cc16" />
+        <circle cx="140" cy="180" r="10" fill="#1e293b" />
+        <circle cx="260" cy="210" r="10" fill="#1e293b" />
+        <path d="M20,330 Q200,180 380,310" fill="none" stroke="#84cc16" strokeWidth="35" strokeLinecap="round" />
+        <path d="M360,280 L430,315 L360,350 Z" fill="#84cc16" />
+      </g>
+      <text x="250" y="440" fontFamily="Inter, sans-serif" fontSize="65" fontWeight="900" textAnchor="middle" fill="#0f172a">KCC</text>
+      <text x="250" y="525" fontFamily="Inter, sans-serif" fontSize="90" fontWeight="900" textAnchor="middle">
+        <tspan fill="#84cc16">Online</tspan>
+        <tspan fill="#0f172a">.Shop</tspan>
+      </text>
+      <text x="250" y="585" fontFamily="Inter, sans-serif" fontSize="32" fontWeight="800" textAnchor="middle" fill="#64748b" letterSpacing="12">FAST SOLUTION</text>
+    </g>
+  </svg>
+);
+
+const HomepageView: React.FC<HomepageProps> = ({ onNavigate, initialScrollTo }) => {
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    if (initialScrollTo) {
+      const el = document.getElementById(initialScrollTo);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [initialScrollTo]);
+
+  const bestItems = [
+    { name: 'Electric Arc Lighter', price: 850, img: 'https://images.unsplash.com/photo-1622445275576-72142f60d715?auto=format&fit=crop&q=80&w=800', desc: 'Windproof, rechargeable, perfect for any weather.' },
+    { name: 'Cordless Power Drill', price: 2500, img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&q=80&w=800', desc: 'Heavy duty, long battery life for home projects.' },
+    { name: 'Multi-Function Blender', price: 3200, img: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&q=80&w=800', desc: 'Elite grinding and blending for your kitchen.' },
+    { name: 'Wall Mounted Shelf', price: 1200, img: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&q=80&w=800', desc: 'Space-saving modern design for smart homes.' },
+    { name: 'USB Gadget Charger', price: 450, img: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&q=80&w=800', desc: 'Multi-port high speed charging for all devices.' },
+    { name: 'Kitchen Knife Set', price: 900, img: 'https://images.unsplash.com/photo-1593611358412-231bb803b097?auto=format&fit=crop&q=80&w=800', desc: 'Stay-sharp stainless steel professional set.' }
+  ];
+
+  const topSellers = [
+    { 
+      name: 'Industrial Power Drill', 
+      price: 2500, 
+      rating: 4.9, 
+      desc: "Perfect for Karak homes – durable design for heavy-duty projects. The wind won't stop your work anymore.",
+      img: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&q=80&w=1200'
+    },
+    { 
+      name: 'Elite Kitchen Mixer', 
+      price: 3200, 
+      rating: 4.8, 
+      desc: "A staple for every KPK kitchen. Reliable motor and easy-to-clean components for traditional cooking.",
+      img: 'https://images.unsplash.com/photo-1591261730799-ee4e6c2d16d7?auto=format&fit=crop&q=80&w=1200'
+    }
+  ];
 
   return (
     <div className="space-y-0 pb-0">
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0c0d0e] text-white hero-gradient">
-        <div className="absolute top-0 right-0 w-[60%] h-full bg-[#84cc16]/10 blur-[150px] -rotate-12 translate-x-[20%]"></div>
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center relative z-10 pt-20">
-          <div className="space-y-12 animate-in fade-in slide-in-from-left duration-1000">
-            <div className="flex items-center gap-3">
-              <span className="w-10 h-[2px] bg-[#84cc16]"></span>
-              <span className="text-[11px] font-black uppercase tracking-[0.5em] text-[#84cc16]">KCC Online Shop Pakistan</span>
-            </div>
-            
-            <h1 className="text-6xl md:text-8xl font-black leading-[0.95] tracking-tighter">
-              Authentic Tech. <br/>
-              <span className="text-[#84cc16] italic underline decoration-white/20">Fast Solution.</span>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-50">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-blue/5 rounded-l-[10rem] -z-10 animate-pulse"></div>
+        <div className="max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center pt-24">
+          <div className="space-y-8 animate-in fade-in slide-in-from-left duration-1000">
+            <span className="inline-block px-4 py-2 bg-brand-blue/10 text-brand-blue text-[10px] font-black uppercase tracking-[0.4em] rounded-full">
+              Karak's #1 Gadget Hub
+            </span>
+            <h1 className="text-6xl md:text-7xl font-black leading-[0.9] tracking-tighter text-slate-900">
+              Upgrade Your Home with <br/>
+              <span className="text-brand-blue">Elite Gadgets.</span>
             </h1>
-            
-            <p className="text-xl text-slate-400 leading-relaxed max-w-lg font-medium">
-              Your premier destination for high-end mobile accessories and innovative kitchen tools. Trusted by 50,000+ shoppers nationwide.
+            <p className="text-xl text-slate-500 leading-relaxed max-w-lg font-medium">
+              Home Improvement, Kitchen Essentials & Smart Gadgets Delivered Fast. Experience the gold standard of local shopping.
             </p>
-            
-            <div className="flex flex-wrap gap-5">
-              <button className="px-10 py-6 bg-[#84cc16] text-black font-black rounded-3xl hover:bg-[#a3e635] transition-all transform hover:-translate-y-1 shadow-2xl shadow-[#84cc16]/30 flex items-center gap-3 group">
-                Shop the Catalog <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-300" />
+            <div className="flex flex-wrap gap-4 pt-4">
+              <button 
+                onClick={() => onNavigate('products')}
+                className="px-10 py-5 bg-brand-orange text-white font-black rounded-[2rem] hover:bg-orange-600 transition-all transform hover:-translate-y-1 shadow-2xl shadow-orange-500/30 flex items-center gap-3 group"
+              >
+                Shop Now <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
               </button>
-              <a href="https://wa.me/923295147517" target="_blank" className="px-10 py-6 bg-white/5 border-2 border-white/10 text-white font-black rounded-3xl hover:bg-white/10 transition-all flex items-center gap-3 group">
-                <PhoneCall size={20} className="text-[#84cc16]" /> WhatsApp Order
+              <a 
+                href="https://wa.me/923295147517?text=Hi%20KCC!%20I%20want%20to%20see%20your%20latest%20catalog."
+                className="px-10 py-5 bg-white border-2 border-slate-100 text-slate-900 font-black rounded-[2rem] hover:bg-slate-50 transition-all flex items-center gap-3"
+              >
+                WhatsApp Us
               </a>
             </div>
-
-            <div className="flex items-center gap-12 pt-8 border-t border-white/5">
-              <div><p className="text-3xl font-black">50k+</p><p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Sales</p></div>
-              <div className="w-px h-10 bg-white/10"></div>
-              <div><p className="text-3xl font-black">4.9/5</p><p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Rating</p></div>
-            </div>
           </div>
-
-          <div className="hidden lg:block relative group animate-in fade-in zoom-in duration-1000 delay-300">
-            <div className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white/10 scale-95 hover:scale-100 transition-transform duration-1000">
-               <img 
-                src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=1400" 
-                alt="Genuine Smartphone Accessories Pakistan" 
-                className="w-full aspect-[4/5] object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000"
-                loading="eager"
+          <div className="relative animate-in fade-in zoom-in duration-1000 delay-300">
+            <div className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl border-8 border-white">
+              <img 
+                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=1400" 
+                alt="Tools and Gadgets" 
+                className="w-full h-full object-cover aspect-[4/5]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              <div className="absolute bottom-10 left-10 p-6 glass-header rounded-[2.5rem] shadow-2xl text-black">
-                 <div className="flex text-amber-500 gap-1 mb-2">
-                   {[1,2,3,4,5].map(s => <Star key={s} size={14} className="fill-amber-500" />)}
+            </div>
+            <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-[3rem] shadow-2xl z-20 hidden md:block border border-slate-50">
+               <div className="flex items-center gap-4">
+                 <div className="w-12 h-12 bg-brand-green/20 rounded-2xl flex items-center justify-center text-brand-green">
+                   <Zap size={24} />
                  </div>
-                 <p className="text-sm font-black">"Best quality gadgets in Lahore. Fast delivery!"</p>
-                 <p className="text-[10px] font-black text-slate-400 mt-2 uppercase">Verified Customer</p>
-              </div>
+                 <div>
+                   <p className="text-2xl font-black text-slate-900 leading-none">850</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Starting Price</p>
+                 </div>
+               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. FLASH SALE SECTION */}
-      <section className="bg-[#84cc16] py-16 px-6 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 relative z-10">
-          <div className="flex items-center gap-6">
-            <div className="p-5 bg-black text-[#84cc16] rounded-3xl shadow-xl animate-bounce">
-              <Zap size={32} />
-            </div>
-            <div>
-              <h2 className="text-black text-3xl font-black tracking-tight">Flash Sale Ending In:</h2>
-              <div className="flex gap-4 mt-2">
-                {[{l:'Hrs',v:timeLeft.hours},{l:'Min',v:timeLeft.minutes},{l:'Sec',v:timeLeft.seconds}].map((u, i) => (
-                  <div key={i} className="flex flex-col items-center">
-                    <span className="bg-black text-white px-3 py-1 rounded-lg font-black text-xl min-w-[3rem] text-center">{u.v < 10 ? `0${u.v}` : u.v}</span>
-                    <span className="text-[10px] font-black text-black/50 uppercase tracking-widest mt-1">{u.l}</span>
-                  </div>
-                ))}
+      {/* 2. WHY CHOOSE US */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            {[
+              { icon: <ShieldCheck className="text-brand-blue" />, title: 'Premium Quality', desc: 'Hand-picked authentic products only.' },
+              { icon: <Award className="text-brand-orange" />, title: 'Affordable Prices', desc: 'Wholesale rates for everyone.' },
+              { icon: <Truck className="text-brand-green" />, title: 'Fast Local Delivery', desc: '48-hour delivery across Karak & KPK.' },
+              { icon: <CheckCircle2 className="text-indigo-500" />, title: 'Trusted in Karak', desc: 'Your local store, near Jail Chowk.' }
+            ].map((f, i) => (
+              <div key={i} className="p-10 rounded-[3rem] bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-slate-200 transition-all border border-transparent hover:border-slate-100 group">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md mb-8 group-hover:scale-110 transition-transform">{f.icon}</div>
+                <h3 className="text-xl font-black text-slate-900 mb-4">{f.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">{f.desc}</p>
               </div>
-            </div>
+            ))}
           </div>
-          <button className="px-10 py-5 bg-black text-white font-black rounded-2xl hover:scale-105 transition-all shadow-2xl flex items-center gap-3">
-            Claim Your Discount <ArrowRight size={20} />
-          </button>
         </div>
-        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+      </section>
+
+      {/* 3. PRODUCTS PREVIEW */}
+      <section className="py-32 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="space-y-4">
+              <span className="text-[10px] font-black text-brand-blue uppercase tracking-[0.5em]">Explore Catalog</span>
+              <h2 className="text-5xl font-black text-slate-900 tracking-tighter">Popular Essentials.</h2>
+            </div>
+            <button onClick={() => onNavigate('products')} className="text-sm font-black text-brand-orange uppercase tracking-widest flex items-center gap-2 group hover:gap-4 transition-all">
+              View All Products <ArrowRight size={16} />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {bestItems.map((item, i) => (
+              <div key={i} className="group bg-white rounded-[3rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all border border-slate-100">
+                <div className="aspect-[4/3] overflow-hidden relative">
+                  <img src={item.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} loading="lazy" />
+                  <div className="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-2xl font-black text-sm text-brand-blue">
+                    Rs. {item.price}
+                  </div>
+                </div>
+                <div className="p-8 space-y-4">
+                  <h3 className="text-xl font-black text-slate-900">{item.name}</h3>
+                  <p className="text-xs text-slate-500 font-medium line-clamp-2">{item.desc}</p>
+                  <a 
+                    href={`https://wa.me/923295147517?text=Hi%20KCC!%20I%20want%20to%20order%20the%20${encodeURIComponent(item.name)}%20-%20Rs%20${item.price}`}
+                    target="_blank"
+                    className="w-full py-4 bg-slate-900 text-white font-black text-xs uppercase tracking-widest rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-blue transition-all"
+                  >
+                    Order Now
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. HOT DEALS */}
+      <section id="deals" className="py-32 bg-brand-blue relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none">
            <Zap className="absolute top-10 right-20 w-64 h-64 rotate-12" />
         </div>
-      </section>
-
-      {/* 3. LOGISTICS TRUST BAR */}
-      <section className="py-12 bg-white border-b border-slate-100 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-10 flex flex-wrap justify-center lg:justify-between items-center gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
-           <span className="text-xs font-black tracking-[0.4em] uppercase text-slate-500">Logistics & Payments:</span>
-           <div className="flex items-center gap-3 font-black text-slate-900"><Truck size={24} /> TCS EXPRESS</div>
-           <div className="flex items-center gap-3 font-black text-slate-900"><Package size={24} /> LEOPARDS</div>
-           <div className="flex items-center gap-3 font-black text-slate-900"><Award size={24} /> JAZZCASH</div>
-           <div className="font-black text-slate-900 border-2 border-black px-2 py-0.5">VISA / MASTERCARD</div>
+        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
+           <div className="text-center mb-20 space-y-4">
+              <span className="text-[10px] font-black text-white/60 uppercase tracking-[0.5em]">Bundle & Save</span>
+              <h2 className="text-5xl md:text-6xl font-black text-white tracking-tighter">Hot Weekly Deals.</h2>
+           </div>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="bg-white rounded-[3.5rem] p-10 flex flex-col md:flex-row gap-8 items-center border border-white/20 shadow-2xl relative group overflow-hidden">
+                 <div className="absolute top-0 right-0 px-6 py-2 bg-brand-orange text-white text-[10px] font-black uppercase rounded-bl-3xl">20% OFF</div>
+                 <div className="w-40 h-40 bg-slate-50 rounded-full flex items-center justify-center shrink-0">
+                    <Utensils size={64} className="text-brand-blue" />
+                 </div>
+                 <div className="space-y-4 flex-1">
+                    <h3 className="text-2xl font-black text-slate-900 leading-tight">Kitchen Starter Kit</h3>
+                    <p className="text-sm text-slate-500 font-medium">Blender + Knife Set + Lighter combo. Everything you need for a modern KPK home.</p>
+                    <a href="https://wa.me/923295147517?text=Hi%20KCC!%20I%20want%20the%20Kitchen%20Starter%20Kit%20Deal!" className="inline-flex items-center gap-3 px-8 py-3 bg-brand-blue text-white font-black rounded-2xl hover:scale-105 transition-all text-xs uppercase tracking-widest">Grab Deal</a>
+                 </div>
+              </div>
+              <div className="bg-white rounded-[3.5rem] p-10 flex flex-col md:flex-row gap-8 items-center border border-white/20 shadow-2xl relative group overflow-hidden">
+                 <div className="absolute top-0 right-0 px-6 py-2 bg-brand-orange text-white text-[10px] font-black uppercase rounded-bl-3xl">SAVE RS. 500</div>
+                 <div className="w-40 h-40 bg-slate-50 rounded-full flex items-center justify-center shrink-0">
+                    <Wrench size={64} className="text-brand-blue" />
+                 </div>
+                 <div className="space-y-4 flex-1">
+                    <h3 className="text-2xl font-black text-slate-900 leading-tight">Master Handyman Combo</h3>
+                    <p className="text-sm text-slate-500 font-medium">Power Drill + Tool Bag + LED Work Light. Pro tools at a student price.</p>
+                    <a href="https://wa.me/923295147517?text=Hi%20KCC!%20I%20want%20the%20Master%20Handyman%20Deal!" className="inline-flex items-center gap-3 px-8 py-3 bg-brand-blue text-white font-black rounded-2xl hover:scale-105 transition-all text-xs uppercase tracking-widest">Grab Deal</a>
+                 </div>
+              </div>
+           </div>
         </div>
       </section>
 
-      {/* 4. CATEGORY GRID */}
-      <section className="max-w-7xl mx-auto px-6 py-32">
-        <div className="text-center mb-20">
-          <span className="text-[11px] font-black text-[#84cc16] uppercase tracking-[0.5em] mb-4 block">Shop Collections</span>
-          <h2 className="text-5xl font-black text-black tracking-tighter">Everything You Need.</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {[
-            { n: 'Kitchen Gear', i: 'https://images.unsplash.com/photo-1520981757710-441c73a1ac92?auto=format&fit=crop&q=80&w=800' },
-            { n: 'Smart Accessories', i: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=800' },
-            { n: 'Home Comfort', i: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800' }
-          ].map((c, i) => (
-            <div key={i} className="group relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer">
-               <img src={c.i} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt={c.n} loading="lazy" />
-               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-12 flex flex-col justify-end">
-                  <h3 className="text-white text-3xl font-black tracking-tighter mb-4">{c.n}</h3>
-                  <button className="flex items-center gap-2 text-[#84cc16] font-black text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform">Browse <ArrowRight size={14} /></button>
-               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 5. SEO AUTHORITY CONTENT */}
-      <section className="bg-slate-50 py-24 border-y border-slate-100 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-16">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-black text-black tracking-tight underline decoration-[#84cc16] decoration-4">Premium Quality Gadgets</h3>
-            <p className="text-slate-500 text-sm leading-relaxed">As Pakistan's top-rated tech hub, <strong>KCC Online Shop</strong> brings you hand-picked mobile accessories. From PD fast chargers to high-capacity power banks, every item undergoes manual stress testing before dispatch to ensure it meets our "Fast Solution" standard.</p>
+      {/* 5. TOP SELLERS (STORY STYLE) */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="text-center mb-20 space-y-4">
+             <span className="text-[10px] font-black text-brand-orange uppercase tracking-[0.5em]">Karak's Favorites</span>
+             <h2 className="text-5xl font-black text-slate-900 tracking-tighter">Elite Top Sellers.</h2>
           </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-black text-black tracking-tight underline decoration-[#84cc16] decoration-4">Modern Kitchen Solutions</h3>
-            <p className="text-slate-500 text-sm leading-relaxed">Upgrade your home with industrial-grade blenders, innovative choppers, and sleek kettle sets. Our kitchen essentials are designed for durability and performance, specifically tailored for Pakistani households who value efficiency and style.</p>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-2xl font-black text-black tracking-tight underline decoration-[#84cc16] decoration-4">Trusted Across Pakistan</h3>
-            <p className="text-slate-500 text-sm leading-relaxed">Whether you are in Karachi, Lahore, or Islamabad, our logistics network ensures your order reaches you within 48-72 hours. We offer safe <strong>Cash on Delivery (COD)</strong> and a transparent 7-day replacement warranty for ultimate peace of mind.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. BRAND VALUE PROPOSITION - REPLACED NEWSLETTER */}
-      <section className="bg-black text-white py-32 px-6 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-24 items-center relative z-10">
-          <div className="space-y-12">
-            <div className="inline-flex items-center gap-4 px-6 py-2 bg-[#84cc16]/10 border border-[#84cc16]/20 rounded-full">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#84cc16] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#84cc16]"></span>
-              </span>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#84cc16]">Official Brand Guarantee</span>
-            </div>
-            
-            <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
-              The Gold Standard of <br/>
-              <span className="text-[#84cc16] italic">Online Trust.</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                { icon: <ShieldCheck className="text-[#84cc16]" />, title: 'Genuine Inventory', desc: 'Direct imports from verified manufacturers.' },
-                { icon: <Clock className="text-[#84cc16]" />, title: '48hr Delivery', desc: 'Express shipping to all major PK cities.' },
-                { icon: <Globe className="text-[#84cc16]" />, title: 'Nationwide Reach', desc: 'Serving every corner of Pakistan safely.' },
-                { icon: <PhoneCall className="text-[#84cc16]" />, title: 'Live Support', desc: 'Real humans on WhatsApp, not bots.' }
-              ].map((item, i) => (
-                <div key={i} className="group p-6 bg-white/5 border border-white/10 rounded-[2rem] hover:bg-[#84cc16]/5 transition-all duration-500">
-                  <div className="w-12 h-12 rounded-2xl bg-[#84cc16]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    {item.icon}
+          
+          <div className="space-y-20">
+             {topSellers.map((item, i) => (
+               <div key={i} className={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-16 items-center`}>
+                  <div className="flex-1 rounded-[4rem] overflow-hidden shadow-2xl relative group">
+                     <img src={item.img} className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000" alt={item.name} />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   </div>
-                  <h4 className="font-black text-lg mb-2">{item.title}</h4>
-                  <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="aspect-square bg-gradient-to-br from-[#84cc16] to-emerald-900 rounded-[4rem] p-1 flex items-center justify-center shadow-2xl shadow-[#84cc16]/20 relative overflow-hidden group">
-               {/* Professional Logo Display based on attached image vibe */}
-               <div className="w-full h-full bg-black rounded-[3.8rem] flex flex-col items-center justify-center relative z-10 p-12 overflow-hidden">
-                 <div className="absolute inset-0 bg-radial-glow opacity-30"></div>
-                 
-                 <div className="relative mb-8 transform group-hover:scale-105 transition-transform duration-700">
-                   <div className="absolute inset-0 bg-[#84cc16] blur-3xl opacity-20"></div>
-                   <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center shadow-[0_0_60px_-15px_rgba(132,204,22,0.5)] border-4 border-emerald-500/10">
-                      <ShoppingBag size={80} className="text-[#84cc16]" strokeWidth={2} />
-                   </div>
-                 </div>
-
-                 <div className="text-center">
-                    <h3 className="text-4xl font-black tracking-tight leading-none">KCC <br/> <span className="text-[#84cc16]">ONLINE.SHOP</span></h3>
-                    <div className="h-px w-20 bg-[#84cc16]/30 mx-auto my-4"></div>
-                    <p className="text-[10px] font-black tracking-[0.6em] text-slate-500 uppercase">Fast Solution</p>
-                 </div>
+                  <div className="flex-1 space-y-8">
+                     <div className="flex items-center gap-2 text-brand-orange">
+                        {[1,2,3,4,5].map(s => <Star key={s} size={18} className="fill-brand-orange" />)}
+                        <span className="text-slate-400 font-black ml-2">{item.rating}/5.0</span>
+                     </div>
+                     <h3 className="text-4xl font-black text-slate-900 leading-tight">{item.name}</h3>
+                     <p className="text-lg text-slate-500 leading-relaxed font-medium italic">"{item.desc}"</p>
+                     <div className="pt-4 flex items-center gap-8">
+                        <span className="text-4xl font-black text-brand-blue">Rs. {item.price}</span>
+                        <a href={`https://wa.me/923295147517?text=Hi%20KCC!%20I'm%20interested%20in%20the%20${encodeURIComponent(item.name)}`} className="px-10 py-5 bg-brand-orange text-white font-black rounded-3xl hover:bg-orange-600 transition-all shadow-xl">Order Yours Now</a>
+                     </div>
+                  </div>
                </div>
-               
-               {/* Decorative background elements */}
-               <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#84cc16]/20 rounded-full blur-3xl"></div>
-               <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-emerald-900/40 rounded-full blur-3xl"></div>
-            </div>
+             ))}
           </div>
         </div>
       </section>
 
-      <style>{`
-        .bg-radial-glow {
-          background: radial-gradient(circle at center, rgba(132, 204, 22, 0.4) 0%, transparent 70%);
-        }
-      `}</style>
+      {/* 6. TESTIMONIALS */}
+      <section className="py-32 bg-slate-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="flex flex-col items-center text-center mb-20 space-y-4">
+            <span className="text-[10px] font-black text-brand-blue uppercase tracking-[0.5em]">Customer Love</span>
+            <h2 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">Voices of the <br/> Community.</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { text: "Best electric lighter in Karak! Fast delivery and very friendly service. Highly recommended.", name: "Ahmed K.", loc: "Karak Central" },
+              { text: "Bought the kitchen mixer for my mother. She loves it! The quality is amazing for this price.", name: "Maria S.", loc: "Banda Daud Shah" },
+              { text: "Finally a reliable tech shop in KPK. The power tools are genuine and work perfectly.", name: "Umar Khan", loc: "Takht-e-Nasrati" }
+            ].map((t, i) => (
+              <div key={i} className="bg-white p-12 rounded-[3.5rem] shadow-xl border border-slate-100 flex flex-col justify-between hover:scale-105 transition-transform">
+                <p className="text-lg text-slate-600 font-medium leading-relaxed italic">"{t.text}"</p>
+                <div className="mt-10 flex items-center gap-4">
+                  <div className="w-12 h-12 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue font-black uppercase">{t.name[0]}</div>
+                  <div>
+                    <h4 className="font-black text-slate-900 text-sm">{t.name}</h4>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.loc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. SPECIAL DEALS & BULK */}
+      <section className="py-24 bg-[#0f0f0f] text-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+           <div className="bg-brand-blue rounded-[4rem] p-16 flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden">
+              <div className="space-y-6 relative z-10 max-w-xl text-center lg:text-left">
+                 <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight">Need Bulk Supplies for Your Project?</h2>
+                 <p className="text-lg text-white/70 font-medium">We offer special rates for contractors and large home renovation projects. Get authentic tools at unbeatable bulk prices.</p>
+              </div>
+              <a href="https://wa.me/923295147517?text=Hi%20KCC!%20I%20want%20to%20get%20a%20quote%20for%20bulk%20order." className="px-12 py-6 bg-white text-brand-blue font-black rounded-3xl hover:bg-slate-50 transition-all shadow-2xl relative z-10 flex items-center gap-3">Get a Custom Quote <ArrowRight size={20} /></a>
+              <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+           </div>
+        </div>
+      </section>
     </div>
   );
 };
